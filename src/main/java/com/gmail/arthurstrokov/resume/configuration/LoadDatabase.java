@@ -1,6 +1,6 @@
 package com.gmail.arthurstrokov.resume.configuration;
 
-import com.gmail.arthurstrokov.resume.util.CreateEmployee;
+import com.gmail.arthurstrokov.resume.util.CustomEmployee;
 import com.gmail.arthurstrokov.resume.model.Employee;
 import com.gmail.arthurstrokov.resume.repository.EmployeeRepository;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ class LoadDatabase {
     CommandLineRunner initDatabase(EmployeeRepository repository) {
 
         return args -> {
-            List<Employee> employees = CreateEmployee.createEmployee();
+            List<Employee> employees = CustomEmployee.createEmployee();
             repository.saveAll(employees);
             log.info("http://localhost:8080/swagger-ui.html");
         };

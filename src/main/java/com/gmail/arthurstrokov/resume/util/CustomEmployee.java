@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CreateEmployee {
+public class CustomEmployee {
 
-    private CreateEmployee() {
+    private CustomEmployee() {
     }
 
     private static final Random random = new Random();
