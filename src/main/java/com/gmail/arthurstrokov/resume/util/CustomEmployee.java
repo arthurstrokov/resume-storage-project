@@ -8,10 +8,10 @@ import java.util.Random;
 
 public class CustomEmployee {
 
+    private static final Random random = new Random();
+
     private CustomEmployee() {
     }
-
-    private static final Random random = new Random();
 
     public static List<Employee> createEmployee() {
         List<Employee> employees = new ArrayList<>();
