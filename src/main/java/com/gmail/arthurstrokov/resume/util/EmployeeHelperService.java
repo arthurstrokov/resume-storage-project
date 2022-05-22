@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class EmployeeCreationService {
+public class EmployeeHelperService {
 
     private static final Random random = new Random();
 
-    private EmployeeCreationService() {
+    private EmployeeHelperService() {
     }
 
     public static List<Employee> createEmployee() {

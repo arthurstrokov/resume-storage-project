@@ -21,7 +21,7 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setUp() {
-
+        repository.findAll();
     }
 
     @Test
