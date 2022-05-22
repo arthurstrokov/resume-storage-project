@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    working_dir: /resume-storage-project
+    volumes:
+      - api-service-data-volume:/var/lib/backup/data # - ./:/app
+    depends_on:
+      - postgres_database # means localhost in properties
+  postgres_database:
+    image: "postgres:latest"
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - api-service-data-volume:/var/lib/database/postgresql
+    environment:
+      POSTGRES_DB: employees_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+volumes:
+  api-service-data-volume:

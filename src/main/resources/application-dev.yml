@@ -1,0 +1,36 @@
+spring:
+  datasource: # Set database properties
+    driver-class-name: org.postgresql.Driver
+    url: ${POSTGRES_DB:jdbc:postgresql://postgres_database:5432/employees_db} # postgres_database localhost
+    username: ${POSTGRES_USER:root}
+    password: ${POSTGRES_PASSWORD:root}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 60000
+  jpa:
+    defer-datasource-initialization: true # Initialize a Database add from .sql
+    #    show-sql: true # Show SQL if needed
+    open-in-view: false # Swagger need disable OSIV (Open Session in View)
+    hibernate:
+      ddl-auto: create-drop # Set database Schema
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: false # Show SQL
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  application:
+    admin:
+      enabled: true
+  sql:
+    init:
+      mode: always #spring.datasource.initialization-mode=always deprecated
+  jackson:
+    serialization:
+      indent-output: true # Set pretty JSON response
+
+server:
+  error:
+    include-stacktrace: on_param # Remove 'trace' from Response body
