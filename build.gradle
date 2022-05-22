@@ -49,7 +49,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'com.h2database:h2'
-    implementation 'org.postgresql:postgresql:42.3.3'
+    implementation 'org.postgresql:postgresql:42.3.4'
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.6.5'
@@ -58,7 +58,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.13'
     // https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin
-    implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0'
+    implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0' // TODO What is going on?
 
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
