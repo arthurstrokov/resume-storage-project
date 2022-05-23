@@ -58,12 +58,14 @@ dependencies {
     // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.13'
     // https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin
-    implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0' // TODO What is going on?
+    implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0'
+    // TODO What is going on?
 
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
     implementation 'io.github.arthurstrokov:aop-library:0.0.1'
+    //	compileOnly(fileTree(dir: 'C:/Users/arthu/.m2/repository/io/github/arthurstrokov/aop-library/0.0.1', include: '*.jar'))
 }
 
 repositories {

@@ -58,7 +58,7 @@ public class EmployeeController {
      * @param email employee email
      * @return Employee found by email
      */
-    @Operation(summary = "Get employee", description = "Get employee by it's email")
+    @Operation(summary = "Get employees by email", description = "Get employee by it's email")
     @GetMapping
     Employee getByEmployeeEmail(@RequestParam("email") String email) {
         return service.findByEmail(email);
