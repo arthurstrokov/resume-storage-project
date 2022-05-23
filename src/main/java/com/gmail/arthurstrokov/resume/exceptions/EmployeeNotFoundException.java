@@ -6,7 +6,7 @@ public class EmployeeNotFoundException extends RuntimeException {
         super("Employee not found exception");
     }
 
-    public EmployeeNotFoundException(Long id) {
+    public EmployeeNotFoundException(long id) {
         super("Could not find employee " + id);
     }
 

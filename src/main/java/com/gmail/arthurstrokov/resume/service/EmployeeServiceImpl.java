@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findById(Long id) {
+    public Employee findById(long id) {
         return repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
