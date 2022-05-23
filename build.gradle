@@ -68,7 +68,7 @@ dependencies {
 
 repositories {
     maven {
-        url "https://maven.pkg.jetbrains.space/avistate/p/aop-library/maven"
+        url "https://maven.pkg.jetbrains.space/avistate/p/aop-library/aop"
         credentials {
             username = spaceUsername
             password = spacePassword
