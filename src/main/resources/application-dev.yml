@@ -35,4 +35,3 @@ server:
   error:
     include-stacktrace: on_param # Remove 'trace' from Response body
   port: 8080
-
