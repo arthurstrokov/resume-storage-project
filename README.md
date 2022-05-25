@@ -1,6 +1,6 @@
 ﻿# resume-storage-project-test
 
-# Docker compose
+## Docker compose
 
     ./gradlew clean build or ./gradlew clean build -x test for work in docker
     
