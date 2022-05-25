@@ -4,11 +4,4 @@ spring:
   application:
     name: resume-storage-project
   profiles:
-    active: dev # cloud
-  config:
-    import: 'optional:configserver:'
-#  cloud:
-#    config:
-#      uri: http://localhost:8888/
-#      enabled: true
-#      failFast: true
+    active: dev
