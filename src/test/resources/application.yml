@@ -1,0 +1,10 @@
+spring:
+  main:
+    banner-mode: "off" # Set off banner
+  datasource:
+    url: jdbc:h2:mem:test # H2
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  config:
+    import: 'optional:configserver:'
