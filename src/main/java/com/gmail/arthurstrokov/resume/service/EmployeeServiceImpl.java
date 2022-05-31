@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return employee
      */
     @Override
-    public EmployeeDTO findById(Long id) {
+    public EmployeeDTO findById(long id) {
         Employee employee = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         return mapper.toDTO(employee);
     }
