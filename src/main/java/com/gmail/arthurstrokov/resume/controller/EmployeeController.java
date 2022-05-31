@@ -187,7 +187,7 @@ public class EmployeeController {
      * @return employee
      */
     @Operation(summary = "Replace employee", description = "Method that replace employee")
-    @PostMapping("{id}")
+    @PostMapping("{id}/replace")
     public EmployeeDTO replace(@RequestBody @Valid EmployeeDTO employeeDTO, @PathVariable Long id) {
         Employee employee = service.replace(employeeDTO, id);
         return mapper.toDTO(employee);
