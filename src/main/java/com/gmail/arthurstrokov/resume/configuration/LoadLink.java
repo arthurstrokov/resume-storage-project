@@ -11,6 +11,9 @@ class LoadLink {
 
     @Bean
     CommandLineRunner initLink() {
-        return args -> log.info("http://localhost:8080/swagger-ui.html");
+        return args -> {
+            log.info("http://localhost:8080/swagger-ui.html");
+            log.info("http://localhost:8080/actuator");
+        };
     }
 }
