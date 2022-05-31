@@ -52,7 +52,7 @@ public class EmployeeController {
      * @param id employee id
      * @return employee
      */
-    @Operation(summary = "Get employee", description = "Get employee by it's id")
+    @Operation(summary = "Get employee by it's id", description = "Get employee by it's id")
     @GetMapping("{id}")
     public ResponseEntity<EmployeeDTO> findById(@PathVariable("id") Long id) {
         try {
@@ -67,7 +67,7 @@ public class EmployeeController {
      * @param email employee email
      * @return Employee found by email
      */
-    @Operation(summary = "Get employees by email", description = "Get employee by it's email")
+    @Operation(summary = "Get employee by it's email", description = "Get employee by it's email")
     @GetMapping("/email")
     EmployeeDTO getByEmail(@RequestParam("email") String email) {
         return service.findByEmail(email);
@@ -96,6 +96,7 @@ public class EmployeeController {
      * @param pageable pageable
      * @return Sorted pageable list of employees
      */
+    @Operation(summary = "Get pageable employees", description = "Return pageable list of employees")
     @GetMapping(value = "/pageable")
     ResponseEntity<Page<EmployeeDTO>> getAllPageable(Pageable pageable) {
         try {
@@ -110,8 +111,8 @@ public class EmployeeController {
      * @param pageable etc. http://localhost:8080/listPageable?page=0&size=3&sort=name
      * @return Sorted pageable list of employees
      */
-    @Operation(summary = "Get all employees", description = "Return list of employees using Spring Boot Pagination")
-    @GetMapping(value = "/employeesListPageable")
+    @Operation(summary = "Get pageable employees", description = "Return list of employees using Spring Boot Pagination")
+    @GetMapping(value = "/listPageable")
     ResponseEntity<Page<EmployeeDTO>> employeesPageable(Pageable pageable) {  // TODO Change this method
         try {
             Page<EmployeeDTO> page = service.getAllPageable(pageable);
@@ -128,6 +129,7 @@ public class EmployeeController {
      * @param filter filter
      * @return filtered list of employees
      */
+    @Operation(summary = "Get filtered employees", description = "Return filtered list of employees")
     @GetMapping("/filtered")
     public ResponseEntity<List<EmployeeDTO>> getAllFiltered(@RequestParam(value = "search", required = false) String filter) {
         try {
@@ -146,6 +148,7 @@ public class EmployeeController {
      * @param pageable pageable
      * @return Sorted pageable list of employees
      */
+    @Operation(summary = "Get filtered & pageable employees", description = "Return filtered & pageable list of employees")
     @GetMapping
     ResponseEntity<Page<EmployeeDTO>> getAllFilteredAndPageable(
             @RequestParam(value = "search", required = false) String filter, Pageable pageable
