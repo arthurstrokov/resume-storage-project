@@ -152,7 +152,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee replace(EmployeeDTO employeeDTO, Long id) {
-        return null;
+        return repository.save(mapper.toEntity(employeeDTO));
     }
 
     /**
