@@ -108,21 +108,6 @@ public class EmployeeController {
     }
 
     /**
-     * @param pageable etc. http://localhost:8080/listPageable?page=0&size=3&sort=name
-     * @return Sorted pageable list of employees
-     */
-    @Operation(summary = "Get pageable employees", description = "Return list of employees using Spring Boot Pagination")
-    @GetMapping(value = "/listPageable")
-    ResponseEntity<Page<EmployeeDTO>> employeesPageable(Pageable pageable) {  // TODO Change this method
-        try {
-            Page<EmployeeDTO> page = service.getAllPageable(pageable);
-            return new ResponseEntity<>(page, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // TODO or throw new PageNotFoundException();
-        }
-    }
-
-    /**
      * Get filtered list of employees
      * localhost:8080/employees/filtered?search=fieldName:value
      *
