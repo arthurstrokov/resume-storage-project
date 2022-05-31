@@ -11,7 +11,7 @@ public class ResourceNotFoundException extends RuntimeException {
      *
      * @param id id
      */
-    public ResourceNotFoundException(Long id) {
+    public ResourceNotFoundException(long id) {
         super("Couldn't find data: " + id);
     }
 

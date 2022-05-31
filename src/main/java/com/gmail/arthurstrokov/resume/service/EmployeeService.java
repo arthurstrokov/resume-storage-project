@@ -14,7 +14,7 @@ public interface EmployeeService {
 
     Employee save(EmployeeDTO employeeDTO);
 
-    EmployeeDTO findById(Long id);
+    EmployeeDTO findById(long id);
 
     EmployeeDTO findByEmail(String email);
 
