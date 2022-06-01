@@ -2,7 +2,6 @@ package com.gmail.arthurstrokov.resume.service;
 
 
 import com.gmail.arthurstrokov.resume.entity.Employee;
-import com.gmail.arthurstrokov.resume.entity.Resume;
 import com.gmail.arthurstrokov.resume.specification.EmployeeSpecificationsBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
