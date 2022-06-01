@@ -1,7 +1,9 @@
-package com.gmail.arthurstrokov.resume.filter;
+package com.gmail.arthurstrokov.resume.service;
 
 
 import com.gmail.arthurstrokov.resume.entity.Employee;
+import com.gmail.arthurstrokov.resume.entity.Resume;
+import com.gmail.arthurstrokov.resume.specification.EmployeeSpecificationsBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,7 +19,7 @@ import java.util.regex.Pattern;
  */
 @RequiredArgsConstructor
 @Service
-public class EmployeeSpecificationService {
+public class SpecificationServiceImpl implements SpecificationService {
     private final ApplicationContext context;
 
     /**
@@ -27,7 +29,8 @@ public class EmployeeSpecificationService {
      * @return Specification
      * @see Specification
      */
-    public Specification<Employee> getEmployeeSpecification(String filter) {
+    @Override
+    public Specification<Employee> employeeRequestToSpecification(String filter) {
         EmployeeSpecificationsBuilder builder = context.getBean(EmployeeSpecificationsBuilder.class);
         Pattern pattern = Pattern.compile("(\\w+?)(:)([^\\n]+),");
         Matcher matcher = pattern.matcher(filter + ",");
