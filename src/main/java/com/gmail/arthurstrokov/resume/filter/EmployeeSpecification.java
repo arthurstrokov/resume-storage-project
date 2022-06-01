@@ -11,7 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Class EmployeeSpecification for get an object Specification
+ * EmployeeSpecification class for get an object Specification
  *
  * @author Arthur Strokov
  */
@@ -21,7 +21,7 @@ public class EmployeeSpecification implements Specification<Employee> {
     private final SearchCriteria criteria;
 
     /**
-     * Creates a WHERE clause for a query of the referenced entity in form of a Predicate for the given Root and CriteriaQuery.
+     * Method constructing the query
      *
      * @param root            – must not be null.
      * @param query           – must not be null.
