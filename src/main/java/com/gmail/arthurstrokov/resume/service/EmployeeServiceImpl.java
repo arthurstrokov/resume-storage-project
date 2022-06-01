@@ -39,7 +39,6 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeDTO EmployeeDTO
      * @return employee
      */
-
     @Override
     public Employee save(EmployeeDTO employeeDTO) {
         Employee employee = mapper.toEntity(employeeDTO);
@@ -149,6 +148,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                 });
     }
 
+    /**
+     * Replace employee
+     *
+     * @param employeeDTO EmployeeDTO
+     * @param id          employee id
+     * @return employee
+     */
     @Override
     public Employee replace(EmployeeDTO employeeDTO, Long id) {
         return repository.save(mapper.toEntity(employeeDTO));
