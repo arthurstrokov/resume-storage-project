@@ -4,7 +4,6 @@ import com.gmail.arthurstrokov.resume.dto.EmployeeDTO;
 import com.gmail.arthurstrokov.resume.entity.Employee;
 import com.gmail.arthurstrokov.resume.exceptions.ResourceAlreadyExistsException;
 import com.gmail.arthurstrokov.resume.exceptions.ResourceNotFoundException;
-import com.gmail.arthurstrokov.resume.filter.EmployeeSpecificationService;
 import com.gmail.arthurstrokov.resume.mapper.EmployeeMapper;
 import com.gmail.arthurstrokov.resume.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
     private final EmployeeMapper mapper;
-    private final EmployeeSpecificationService employeeSpecificationService;
+    private final SpecificationServiceImpl specificationServiceImpl;
 
     /**
      * Check if email already exist
@@ -103,7 +102,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (filter == null) {
             return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
         } else {
-            Specification<Employee> spec = employeeSpecificationService.getEmployeeSpecification(filter);
+            Specification<Employee> spec = specificationServiceImpl.toSpecification(filter);
             List<Employee> employees = repository.findAll(spec);
             return employees.stream().map(mapper::toDTO).collect(Collectors.toList());
         }
@@ -122,7 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Page<Employee> employees = repository.findAll(pageable);
             return employees.map(mapper::toDTO);
         } else {
-            Specification<Employee> spec = employeeSpecificationService.getEmployeeSpecification(filter);
+            Specification<Employee> spec = specificationServiceImpl.toSpecification(filter);
             return repository.findAll(spec, pageable).map(mapper::toDTO);
         }
     }
