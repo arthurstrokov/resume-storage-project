@@ -29,7 +29,7 @@ public class EmployeeSpecificationService {
      */
     public Specification<Employee> getEmployeeSpecification(String filter) {
         EmployeeSpecificationsBuilder builder = context.getBean(EmployeeSpecificationsBuilder.class);
-        Pattern pattern = Pattern.compile("(\\w+?)(:)(\\w+?),");
+        Pattern pattern = Pattern.compile("(\\w+?)(:)([^\\n]+),");
         Matcher matcher = pattern.matcher(filter + ",");
         while (matcher.find()) {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
