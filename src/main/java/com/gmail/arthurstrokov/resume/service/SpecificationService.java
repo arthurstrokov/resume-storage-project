@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SpecificationService {
-    Specification<Employee> toSpecification(String filter);
+    Specification<Employee> employeeRequestToSpecification(String filter);
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
     private final EmployeeMapper mapper;
-    private final SpecificationServiceImpl specificationServiceImpl;
+    private final SpecificationService specificationService;
 
     /**
      * Check if email already exist
@@ -102,7 +102,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (filter == null) {
             return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
         } else {
-            Specification<Employee> spec = specificationServiceImpl.toSpecification(filter);
+            Specification<Employee> spec = specificationService.employeeRequestToSpecification(filter);
             List<Employee> employees = repository.findAll(spec);
             return employees.stream().map(mapper::toDTO).collect(Collectors.toList());
         }
@@ -121,7 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Page<Employee> employees = repository.findAll(pageable);
             return employees.map(mapper::toDTO);
         } else {
-            Specification<Employee> spec = specificationServiceImpl.toSpecification(filter);
+            Specification<Employee> spec = specificationService.employeeRequestToSpecification(filter);
             return repository.findAll(spec, pageable).map(mapper::toDTO);
         }
     }

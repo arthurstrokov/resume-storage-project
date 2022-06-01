@@ -2,6 +2,7 @@ package com.gmail.arthurstrokov.resume.service;
 
 
 import com.gmail.arthurstrokov.resume.entity.Employee;
+import com.gmail.arthurstrokov.resume.entity.Resume;
 import com.gmail.arthurstrokov.resume.specification.EmployeeSpecificationsBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +30,7 @@ public class SpecificationServiceImpl implements SpecificationService {
      * @see Specification
      */
     @Override
-    public Specification<Employee> toSpecification(String filter) {
+    public Specification<Employee> employeeRequestToSpecification(String filter) {
         EmployeeSpecificationsBuilder builder = context.getBean(EmployeeSpecificationsBuilder.class);
         Pattern pattern = Pattern.compile("(\\w+?)(:)([^\\n]+),");
         Matcher matcher = pattern.matcher(filter + ",");
