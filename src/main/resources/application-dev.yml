@@ -1,7 +1,7 @@
 spring:
   datasource: # Set database properties
     driver-class-name: org.postgresql.Driver
-    url: ${POSTGRES_DB:jdbc:postgresql://postgres_database:5432/employees_db} # postgres_database localhost
+    url: ${POSTGRES_DB:jdbc:postgresql://localhost:5432/resume_storage_project_db} # postgres_database localhost
     username: ${POSTGRES_USER:root}
     password: ${POSTGRES_PASSWORD:root}
     hikari:

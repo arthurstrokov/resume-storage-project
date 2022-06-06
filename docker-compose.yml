@@ -5,6 +5,10 @@ services:
     restart: always
     ports:
       - "8080:8080"
+    environment:
+      POSTGRES_DB: jdbc:postgresql://postgres_database:5432/resume_storage_project_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
     working_dir: /resume-storage-project
     volumes:
       - api-service-data-volume:/var/lib/backup/data # - ./:/app
@@ -18,7 +22,7 @@ services:
     volumes:
       - api-service-data-volume:/var/lib/database/postgresql
     environment:
-      POSTGRES_DB: employees_db
+      POSTGRES_DB: resume_storage_project_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
 volumes:
