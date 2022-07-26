@@ -26,4 +26,4 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
 volumes:
-  api-service-data-volume:
+  api-service-data-volume: {}
