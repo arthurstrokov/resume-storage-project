@@ -44,7 +44,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2:2.1.214'
     implementation 'org.postgresql:postgresql:42.3.6'
 
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
