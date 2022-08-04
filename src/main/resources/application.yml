@@ -1,16 +1,29 @@
 spring:
   main:
-    banner-mode: "off" # Set off banner
+    banner-mode: off
   application:
     name: resume-storage-project
   profiles:
-    active: cloud # dev production development
+    active: cloud # dev cloud
   config:
     import: 'optional:configserver:'
   cloud:
     config:
       enabled: true
-      failFast: false
-      uri: http://localhost:8888/ # only for local using
+      failFast: true
+      uri: http://${CONFIG_URL}/ # marathon-lb/marathon-deploy.json
+      #      uri: ${CONFIG_URI:http://cloud-configuration-server:8888} # for docker-compose using
+      #      uri: http://host.docker.internal:8888/ # or ip inside docker container or localhost for docker container local using
+      #      uri: http://localhost:8888/
+      retry:
+        max-attempts: 6
 server:
-  port: 8585
+  port: 8080
+
+#spring:
+#  application:
+#    name: resume-storage-project
+#  profiles:
+#    active: cloud
+#  config:
+#    import: 'optional:configserver:http://${CONFIG_URL}/'
