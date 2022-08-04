@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.5'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'com.bmuschko.docker-spring-boot-application' version '7.3.0'  // Docker plugin
 }
@@ -36,29 +36,27 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
-
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     runtimeOnly 'com.h2database:h2:2.1.214'
-    implementation 'org.postgresql:postgresql:42.3.6'
+    implementation 'org.postgresql:postgresql:42.5.0'
 
-    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
-    // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.13'
-    // https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin
     implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0'
     // TODO What is going on?
 
-    implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
-    implementation 'io.github.arthurstrokov:aop-library:0.0.1'
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+//    implementation 'io.github.arthurstrokov:aop-library:0.0.1'
     //	compileOnly(fileTree(dir: 'C:/Users/arthu/.m2/repository/io/github/arthurstrokov/aop-library/0.0.1', include: '*.jar'))
 }
 
@@ -68,15 +66,15 @@ dependencyManagement {
     }
 }
 
-repositories {
-    maven {
-        url "https://maven.pkg.jetbrains.space/avistate/p/aop-library/aop"
-        credentials {
-            username = spaceUsername
-            password = spacePassword
-        }
-    }
-}
+//repositories {
+//    maven {
+//        url "https://maven.pkg.jetbrains.space/avistate/p/aop-library/aop"
+//        credentials {
+//            username = spaceUsername
+//            password = spacePassword
+//        }
+//    }
+//}
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -85,8 +83,29 @@ tasks.named('test') {
 docker { // For docker plugin
     springBootApplication {
         baseImage = 'openjdk:11'
-        ports = [9090, 8080]
-        images = ['resume-storage-project:latest']
-        jvmArgs = ['-Dspring.profiles.active=production', '-Xmx2048m']
+        ports = [8080]
+        images = ['arthurstrokov/resume-storage-project:latest']
+        jvmArgs = ['-Xmx2048m']
     }
+}
+
+import com.bmuschko.gradle.docker.tasks.container.*
+import com.bmuschko.gradle.docker.tasks.image.*
+
+task removeContainer(type: DockerRemoveContainer) {
+    force = true
+    containerId = 'resume-storage-project'
+    onError(ex -> print ex.getMessage())
+}
+
+task removeImage(type: DockerRemoveImage) {
+    dependsOn removeContainer
+    force = true
+    targetImageId('arthurstrokov/resume-storage-project')
+    onError(ex -> print ex.getMessage())
+}
+
+task("recreate") {
+    group 'docker'
+    dependsOn dockerBuildImage
 }

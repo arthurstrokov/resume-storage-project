@@ -1,29 +1,60 @@
 version: "3.7"
 services:
-  api_service:
+  cloud-configuration-server:
+    image: arthurstrokov/cloud-configuration-server:latest
+    container_name: cloud-configuration-server
+    ports:
+      - "8888:8888"
+    networks:
+      - backend
+    environment:
+      HOST_NAME: cloud-configuration-server
+      SERVER_PORT: 8888
+
+  resume-storage-project:
+    image: arthurstrokov/resume-storage-project:latest
+    container_name: resume-storage-project
     build: .
-    restart: always
+    restart: on-failure
     ports:
       - "8080:8080"
-    environment:
-      POSTGRES_DB: jdbc:postgresql://postgres_database:5432/resume_storage_project_db
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+    networks:
+      - frontend
+      - backend
+    env_file:
+      database.env
     working_dir: /resume-storage-project
     volumes:
-      - api-service-data-volume:/var/lib/backup/data # - ./:/app
+      - api-service-volumes:/var/lib/backup/data
+      - api-service-volumes:/tmp
     depends_on:
+      - cloud-configuration-server
       - postgres_database # means localhost in properties
+    environment:
+      SERVER_PORT: 8080
+      CONFIG_URI: http://cloud-configuration-server:8888
+
   postgres_database:
     image: "postgres:latest"
     restart: always
     ports:
       - "5432:5432"
+    networks:
+      - backend
     volumes:
-      - api-service-data-volume:/var/lib/database/postgresql
+      - postgres-database-volumes:/var/lib/postgresql/data
+      - postgres-database-volumes:/var/lib/database/postgresql
     environment:
       POSTGRES_DB: resume_storage_project_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
 volumes:
-  api-service-data-volume: {}
+  api-service-volumes: { }
+  postgres-database-volumes: { }

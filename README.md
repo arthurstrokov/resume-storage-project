@@ -61,7 +61,7 @@ Service designed to work with employees resumes.
 
 ## Docker compose
 
-    ./gradlew clean build or ./gradlew clean build -x test for work in docker
+    ./gradlew clean build or ./gradlew clean build -x test (for work in docker)
     
     docker-compose build
 

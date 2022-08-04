@@ -1,0 +1,94 @@
+{
+  "id": "/resume-storage-project",
+  "cmd": null,
+  "cpus": 0.1,
+  "mem": 256,
+  "disk": 0,
+  "instances": 1,
+  "acceptedResourceRoles": [
+    "*",
+    "development"
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "forcePullImage": false,
+      "image": "arthurstrokov/resume-storage-project:latest",
+      "parameters": [],
+      "privileged": false
+    },
+    "volumes": [],
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0,
+        "labels": {},
+        "protocol": "tcp",
+        "servicePort": 0
+      }
+    ]
+  },
+  "dependencies": [
+    "/cloud-configuration-server"
+  ],
+  "env": {
+    "CONTAINER_NAME": "resume-storage-project",
+    "CONFIG_URL": "${HOST}/cloud-configuration-server"
+  },
+  "healthChecks": [
+    {
+      "command": {
+        "value": "curl -f -X GET http://host.docker.internal/resume-storage-project/actuator/health",
+        "_comment": "curl -f -X GET http://host.docker.internal/resume-storage-project/actuator/health"
+      },
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "protocol": "COMMAND",
+      "ipProtocol": "IPv4",
+      "timeoutSeconds": 20,
+      "delaySeconds": 15
+    },
+    {
+      "command": {
+        "value": "pwd"
+      },
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "protocol": "COMMAND",
+      "ipProtocol": "IPv4",
+      "timeoutSeconds": 20,
+      "delaySeconds": 15
+    },
+    {
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "protocol": "MESOS_TCP",
+      "ipProtocol": "IPv4",
+      "timeoutSeconds": 10,
+      "delaySeconds": 15
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "local",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/resume-storage-project",
+    "HAPROXY_0_VHOST": "host.docker.internal",
+    "HAPROXY_0_PATH": "-i /resume-storage-project"
+  },
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "portDefinitions": [],
+  "backoffFactor": 2,
+  "backoffSeconds": 30,
+  "maxLaunchDelaySeconds": 86400,
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 0.5
+  }
+}
