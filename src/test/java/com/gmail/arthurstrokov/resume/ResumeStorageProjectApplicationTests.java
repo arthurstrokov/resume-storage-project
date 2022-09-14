@@ -14,6 +14,6 @@ class ResumeStorageProjectApplicationTests {
 
     @Test
     void contextLoads() {
-        assertNotNull(context); // TODO How make database test in docker?
+        assertNotNull(context);
     }
 }

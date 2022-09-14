@@ -69,7 +69,7 @@ public class EmployeeController {
      */
     @Operation(summary = "Get employee by it's email", description = "Get employee by it's email")
     @GetMapping("/email")
-    EmployeeDTO getByEmail(@RequestParam("email") String email) {
+    public EmployeeDTO getByEmail(@RequestParam("email") String email) {
         return service.findByEmail(email);
     }
 
@@ -91,14 +91,13 @@ public class EmployeeController {
 
     /**
      * Get pageable list of employees
-     * localhost:8080/employees/pageable?page=0&size=0&sort=fieldName
      *
      * @param pageable pageable
      * @return Sorted pageable list of employees
      */
     @Operation(summary = "Get pageable employees", description = "Return pageable list of employees")
     @GetMapping(value = "/pageable")
-    ResponseEntity<Page<EmployeeDTO>> getAllPageable(Pageable pageable) {
+    public ResponseEntity<Page<EmployeeDTO>> getAllPageable(Pageable pageable) {
         try {
             Page<EmployeeDTO> employeesPageable = service.getAllPageable(pageable);
             return new ResponseEntity<>(employeesPageable, HttpStatus.OK);
@@ -109,7 +108,6 @@ public class EmployeeController {
 
     /**
      * Get filtered list of employees
-     * localhost:8080/employees/filtered?search=fieldName:value
      *
      * @param filter filter
      * @return filtered list of employees
@@ -127,7 +125,6 @@ public class EmployeeController {
 
     /**
      * Get filtered and pageable list of employees
-     * localhost:8080/employees/?search=fieldName:value&page=0&size=0&sort=fieldName
      *
      * @param filter   filter
      * @param pageable pageable
@@ -135,7 +132,7 @@ public class EmployeeController {
      */
     @Operation(summary = "Get filtered & pageable employees", description = "Return filtered & pageable list of employees")
     @GetMapping
-    ResponseEntity<Page<EmployeeDTO>> getAllFilteredAndPageable(
+    public ResponseEntity<Page<EmployeeDTO>> getAllFilteredAndPageable(
             @RequestParam(value = "search", required = false) String filter, Pageable pageable
     ) {
         try {

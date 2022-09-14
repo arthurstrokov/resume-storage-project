@@ -6,10 +6,10 @@ spring:
     password: ${POSTGRES_PASSWORD:root}
     hikari:
       maximum-pool-size: 5
-      connection-timeout: 60000
+      connection-timeout: 5000
   jpa:
     defer-datasource-initialization: true # Initialize a Database add from .sql
-    #    show-sql: true # Show SQL if needed
+    show-sql: true # Show SQL if needed
     open-in-view: false # Swagger need disable OSIV (Open Session in View)
     hibernate:
       ddl-auto: create-drop # Set database Schema
@@ -26,10 +26,17 @@ spring:
       enabled: true
   sql:
     init:
-      mode: always #spring.datasource.initialization-mode=always deprecated
+      mode: never # always never
   jackson:
     serialization:
       indent-output: true # Set pretty JSON response
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+        HikariConfig: INFO
 
 server:
   error:
