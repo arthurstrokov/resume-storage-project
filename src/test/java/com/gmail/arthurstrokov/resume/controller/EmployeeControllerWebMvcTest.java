@@ -4,14 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.arthurstrokov.resume.dto.EmployeeDTO;
 import com.gmail.arthurstrokov.resume.entity.Employee;
 import com.gmail.arthurstrokov.resume.entity.Gender;
+import com.gmail.arthurstrokov.resume.mapper.EmployeeMapper;
+import com.gmail.arthurstrokov.resume.repository.EmployeeRepository;
 import com.gmail.arthurstrokov.resume.service.EmployeeService;
+import org.apache.http.HttpHeaders;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,25 +36,43 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
-@Deprecated
-@SpringBootTest
-@AutoConfigureMockMvc
-class EmployeeControllerTest {
+/**
+ * @author Артур Строков
+ * @email astrokov@clevertec.ru
+ * @created 15.09.2022
+ */
+@WebMvcTest(EmployeeController.class)
+class EmployeeControllerWebMvcTest {
+
+    @Autowired
+    private MockMvc mockMvc;
     @MockBean
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
+    @MockBean
     @Autowired
-    ObjectMapper objectMapper;
+    private EmployeeMapper employeeMapper;
+    @MockBean
     @Autowired
-    MockMvc mockMvc;
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @MockBean
     private List<EmployeeDTO> employeeDTOList;
     private Employee employee;
     private EmployeeDTO employeeDTO;
 
+    @Test
+    void context() {
+        assertNotNull(mockMvc);
+        assertNotNull(employeeService);
+        assertNotNull(employeeMapper);
+        assertNotNull(objectMapper);
+        assertNotNull(employeeRepository);
+    }
+
     @BeforeEach
     void setUp() {
         employee = Employee.builder()
-                .id(1L)
                 .firstName("Arthur")
                 .lastName("Strokov")
                 .phone("375291555376")
@@ -58,7 +80,9 @@ class EmployeeControllerTest {
                 .gender(Gender.MALE)
                 .email("arthurstrokov@gmail.com")
                 .build();
+
         employeeDTO = EmployeeDTO.builder()
+                .id(1L)
                 .firstName("Arthur")
                 .lastName("Strokov")
                 .phone("375291555376")
@@ -77,46 +101,63 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void save() throws Exception {
+    @DisplayName("get valid employee")
+    void testFindEmployeeById() throws Exception {
+        int id = 1;
+        when(employeeService.findById(id)).thenReturn(employeeDTO);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("http://localhost:8080/employees/{id}", id)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(employeeDTO.getId().intValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.is(employeeDTO.getLastName())))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        verify(employeeService).findById(id);
+        verify(employeeService, times(1)).findById(id);
+    }
+
+    @Test
+    @DisplayName("save employee")
+    void testSaveEmployee() throws Exception {
+        when(employeeService.save(any(EmployeeDTO.class))).thenReturn(employee);
         String json = objectMapper.writeValueAsString(employee);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("http://localhost:8080/employees")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
                 .andDo(MockMvcResultHandlers.print());
-        when(employeeService.save(any(EmployeeDTO.class))).thenReturn(employee);
+        verify(employeeService).save(any(EmployeeDTO.class));
         verify(employeeService, times(1)).save(any(EmployeeDTO.class));
     }
 
     @Test
-    void findById() throws Exception {
-        when(employeeService.findById(employee.getId())).thenReturn(employeeDTO);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("http://localhost:8080/employees/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    void getAll() throws Exception {
+    @DisplayName("get all employees")
+    void testGetAllEmployees() throws Exception {
         when(employeeService.getAll()).thenReturn(employeeDTOList);
         mockMvc.perform(MockMvcRequestBuilders
                         .get("http://localhost:8080/employees/all")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
         verify(employeeService).getAll();
         verify(employeeService, times(1)).getAll();
     }
 
     @Test
-    void getAllPageable() throws Exception {
+    @DisplayName("get all pageable employees")
+    void testGetAllPageableEmployees() throws Exception {
         Pageable pageable = PageRequest.of(1, 10, Sort.by("email"));
         when(employeeService.getAllPageable(any(Pageable.class))).thenReturn(Page.empty());
         mockMvc.perform(MockMvcRequestBuilders
                         .get("http://localhost:8080/employees?page=1&size=10&sort=email")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
@@ -126,11 +167,14 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getAllFiltered() throws Exception {
+    @DisplayName("get all filtered employees")
+    void testGetAllFilteredEmployees() throws Exception {
         when(employeeService.getAllByFilter(any(String.class))).thenReturn(employeeDTOList);
         mockMvc.perform(MockMvcRequestBuilders
                         .get("http://localhost:8080/employees/filtered?search=email:arthurstrokov@gmail.com")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
         List<EmployeeDTO> employeeDTOS = employeeService.getAllByFilter("email:arthurstrokov@gmail.com");
         assertNotNull(employeeDTOS);
@@ -139,24 +183,30 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getAllFilteredAndPageable() throws Exception {
+    @DisplayName("get all filtered and pageable employees")
+    void testGetAllFilteredAndPageable() throws Exception {
+        String filter = "email:arthurstrokov@gmail.com";
         Pageable pageable = PageRequest.of(1, 10, Sort.by("email"));
         when(employeeService.getAllFilteredAndPageable(any(String.class), any(Pageable.class))).thenReturn(Page.empty());
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("http://localhost:8080/?search=email:arthurstrokov@gmail.com&page=1&size=10&sort=email")
+                        .get("http://localhost:8080/employees/?search=email:arthurstrokov@gmail.com&page=0&size=10&sort=email")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-        Page<EmployeeDTO> employeeDTOS = employeeService.getAllFilteredAndPageable("email:arthurstrokov@gmail.com", pageable);
-        assertNotNull(employeeDTOS);
-        assertEquals(Page.empty(), employeeDTOS);
+        Page<EmployeeDTO> employeesPageable = employeeService.getAllFilteredAndPageable(filter, pageable);
+        assertNotNull(employeesPageable);
+        assertEquals(Page.empty(), employeesPageable);
         verify(employeeService, times(1)).getAllFilteredAndPageable("email:arthurstrokov@gmail.com", pageable);
     }
 
     @Test
-    void update() throws Exception {
+    @DisplayName("update employees")
+    void testUpdateEmployee() throws Exception {
         String json = objectMapper.writeValueAsString(employee);
         mockMvc.perform(MockMvcRequestBuilders
                         .put("http://localhost:8080/employees/1")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
@@ -165,7 +215,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    @DisplayName("delete employee")
+    void testDeleteEmployee() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("http://localhost:8080/employees/1")
                         .contentType(MediaType.APPLICATION_JSON))
