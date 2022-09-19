@@ -6,6 +6,7 @@ import com.gmail.arthurstrokov.resume.exceptions.ResourceAlreadyExistsException;
 import com.gmail.arthurstrokov.resume.exceptions.ResourceNotFoundException;
 import com.gmail.arthurstrokov.resume.mapper.EmployeeMapper;
 import com.gmail.arthurstrokov.resume.service.EmployeeService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,7 @@ public class EmployeeController {
      *
      * @return employees list
      */
+    @Timed(value = "get_all_employees", histogram = true, percentiles = 0.95)
     @Operation(summary = "Get all employees", description = "Return list of employees")
     @GetMapping("/all")
     public ResponseEntity<List<EmployeeDTO>> getAll() {

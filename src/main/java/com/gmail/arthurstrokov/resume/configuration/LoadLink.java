@@ -15,6 +15,7 @@ class LoadLink {
             log.info("http://localhost:8080/swagger-ui.html");
             log.info("http://localhost:8080/actuator");
             log.info("http://localhost:8080/actuator/health");
+            log.info("http://localhost:8080/actuator/prometheus");
         };
     }
 }
