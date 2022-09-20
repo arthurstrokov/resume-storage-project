@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
-    id 'com.bmuschko.docker-spring-boot-application' version '7.3.0'  // Docker plugin
+    id 'com.bmuschko.docker-spring-boot-application' version '8.1.0'
 }
 
 java {
@@ -60,8 +60,6 @@ dependencies {
 
     implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
@@ -96,22 +94,6 @@ docker { // For docker plugin
         images = ['arthurstrokov/resume-storage-project:latest']
         jvmArgs = ['-Xmx2048m']
     }
-}
-
-import com.bmuschko.gradle.docker.tasks.container.*
-import com.bmuschko.gradle.docker.tasks.image.*
-
-task removeContainer(type: DockerRemoveContainer) {
-    force = true
-    containerId = 'resume-storage-project'
-    onError(ex -> print ex.getMessage())
-}
-
-task removeImage(type: DockerRemoveImage) {
-    dependsOn removeContainer
-    force = true
-    targetImageId('arthurstrokov/resume-storage-project')
-    onError(ex -> print ex.getMessage())
 }
 
 task("recreate") {

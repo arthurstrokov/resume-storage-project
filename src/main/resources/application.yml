@@ -19,20 +19,17 @@ spring:
         max-attempts: 6
 server:
   port: 8080
-
-eureka:
-  instance:
-    metadata-map:
-      metrics.path: /actuator/prometheus
-      health.path: /actuator/health
-      management.context-path: /actuator
-  client:
-    fetch-registry: true
-    service-url:
-      defaultZone: ${EUREKA_SERVICE_URI:http://localhost:8761/eureka}
-
+---
 management:
+  endpoint:
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: [ "prometheus", "*" ]
+      base-path: "/"
+      path-mapping:
+        prometheus: metrics
+#        enable:
+#          http_server_requests: true

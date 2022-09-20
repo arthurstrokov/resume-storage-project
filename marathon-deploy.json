@@ -33,8 +33,7 @@
   ],
   "env": {
     "CONTAINER_NAME": "resume-storage-project",
-    "CONFIG_URL": "${HOST}/cloud-configuration-server",
-    "EUREKA_SERVICE_URI": "http://host.docker.internal:8761/eureka"
+    "CONFIG_URL": "${HOST}/cloud-configuration-server"
   },
   "healthChecks": [
     {
