@@ -53,6 +53,7 @@ public class EmployeeController {
      * @param id employee id
      * @return employee
      */
+    @Timed(value = "get_employee_by_id", histogram = true, percentiles = 0.95)
     @Operation(summary = "Get employee by it's id", description = "Get employee by it's id")
     @GetMapping("{id}")
     public ResponseEntity<EmployeeDTO> findById(@PathVariable("id") Long id) {
