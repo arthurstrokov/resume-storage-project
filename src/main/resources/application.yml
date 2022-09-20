@@ -21,24 +21,18 @@ server:
   port: 8080
 
 eureka:
+  instance:
+    metadata-map:
+      metrics.path: /actuator/prometheus
+      health.path: /actuator/health
+      management.context-path: /actuator
   client:
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
-#      defaultZone: http://host.docker.internal:8761/eureka/
+      defaultZone: ${EUREKA_SERVICE_URI:http://localhost:8761/eureka}
 
 management:
   endpoints:
     web:
       exposure:
-        include:
-          - prometheus
-          - health
-
-#spring:
-#  application:
-#    name: resume-storage-project
-#  profiles:
-#    active: cloud
-#  config:
-#    import: 'optional:configserver:http://${CONFIG_URL}/'
+        include: "*"
