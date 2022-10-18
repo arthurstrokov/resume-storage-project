@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: CONFIG_URL
-              value: 192.168.59.111:31600/cloud-configuration-server
+              value: 192.168.59.105:30080/cloud-configuration-server
           ports:
             - containerPort: 8080
 ---
