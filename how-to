@@ -1,0 +1,19 @@
+plugins {
+    id "org.flywaydb.flyway" version "9.4.0"
+}
+
+---
+PGPASSWORD=root psql -U root
+drop database resume_storage_project_db;
+create database resume_storage_project_db;
+---
+Create a backup of your database:
+pg_dump
+export PGPASSWORD=root
+docker exec -i elastic_yonath pg_dump resume_storage_project_db > dump.sql
+docker exec -i elastic_yonath pg_dump resume_storage_project_db > dump.dump
+
+docker exec -t elastic_yonath pg_dumpall -c -U root > dump.sql
+-
+Restore database:
+cat dump.sql | docker exec -i elastic_yonath psql -U root

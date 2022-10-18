@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'com.bmuschko.docker-spring-boot-application' version '8.1.0'
+    id "org.flywaydb.flyway" version "9.4.0"
 }
 
 java {
@@ -44,11 +45,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
 
     runtimeOnly 'com.h2database:h2'
 
-    testImplementation 'org.testcontainers:postgresql:1.17.3'
-    testImplementation "org.testcontainers:junit-jupiter:1.17.3"
+    testImplementation 'org.testcontainers:postgresql:1.17.4'
+    testImplementation 'org.testcontainers:junit-jupiter:1.17.4'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.13'
@@ -94,9 +96,4 @@ docker { // For docker plugin
         images = ['arthurstrokov/resume-storage-project:latest']
         jvmArgs = ['-Xmx2048m']
     }
-}
-
-task("recreate") {
-    group 'docker'
-    dependsOn dockerBuildImage
 }
