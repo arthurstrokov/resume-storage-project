@@ -38,8 +38,7 @@
   "healthChecks": [
     {
       "command": {
-        "value": "curl -f -X GET http://host.docker.internal/resume-storage-project/actuator/health",
-        "_comment": "curl -f -X GET http://host.docker.internal/resume-storage-project/actuator/health"
+        "value": "curl -f -X GET http://host.docker.internal/resume-storage-project/health"
       },
       "gracePeriodSeconds": 300,
       "intervalSeconds": 60,
