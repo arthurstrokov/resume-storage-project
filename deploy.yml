@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: resume-storage-project
+  name: resume-storage-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resume-storage-project
+  template:
+    metadata:
+      labels:
+        app: resume-storage-project
+        visualize: "true"
+    spec:
+      containers:
+        - name: resume-storage-project
+          image: arthurstrokov/resume-storage-project:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CONFIG_URL
+              value: 192.168.59.111:31600/cloud-configuration-server
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: resume-storage-project
+  name: resume-storage-project
+  annotations:
+    haproxy.org/check: "enabled"
+    haproxy.org/forwarded-for: "enabled"
+    haproxy.org/load-balance: "roundrobin"
+    haproxy.org/path-rewrite: /
+spec:
+  selector:
+    app: resume-storage-project
+  ports:
+    - name: port-2
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  type: LoadBalancer
