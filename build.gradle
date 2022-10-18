@@ -65,6 +65,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+
+    implementation 'org.springframework.boot:spring-boot-devtools'
+
 //    implementation 'io.github.arthurstrokov:aop-library:0.0.1'
     //	compileOnly(fileTree(dir: 'C:/Users/arthu/.m2/repository/io/github/arthurstrokov/aop-library/0.0.1', include: '*.jar'))
 }

@@ -7,6 +7,7 @@ spring:
     hikari:
       maximum-pool-size: 5
       connection-timeout: 5000
+
   jpa:
     defer-datasource-initialization: true # Initialize a Database add from .sql
     show-sql: true # Show SQL if needed
@@ -21,12 +22,27 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+  flyway:
+    enabled: true
+    schemas: public # default
+    baseline-on-migrate: true
+
+  zipkin:
+    base-url: http://host.docker.internal:9411
+
+  devtools:
+    remote:
+      secret: secret
+
   application:
     admin:
       enabled: true
+
   sql:
     init:
       mode: never # always never
+
   jackson:
     serialization:
       indent-output: true # Set pretty JSON response
@@ -37,8 +53,26 @@ logging:
       zaxxer:
         hikari: INFO
         HikariConfig: INFO
-
+---
+springdoc:
+  swagger-ui:
+    path: /swagger
+---
 server:
   error:
     include-stacktrace: on_param # Remove 'trace' from Response body
   port: 8080
+---
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ "prometheus", "*" ]
+      base-path: "/"
+      path-mapping:
+        prometheus: metrics
+#        enable:
+#          http_server_requests: true
