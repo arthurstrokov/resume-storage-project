@@ -96,7 +96,10 @@ docker { // For docker plugin
     springBootApplication {
         baseImage = 'openjdk:11'
         ports = [8080]
-        images = ['arthurstrokov/resume-storage-project:latest']
+        images = [
+                'arthurstrokov/resume-storage-project:latest',
+                'arthurstrokov/resume-storage-project:v1.8'
+        ]
         jvmArgs = ['-Xmx2048m']
     }
 }

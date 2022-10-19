@@ -9,11 +9,11 @@ spring:
       connection-timeout: 5000
 
   jpa:
-    defer-datasource-initialization: true # Initialize a Database add from .sql
+    defer-datasource-initialization: false # Initialize a Database add from .sql
     show-sql: true # Show SQL if needed
     open-in-view: false # Swagger need disable OSIV (Open Session in View)
     hibernate:
-      ddl-auto: create-drop # Set database Schema
+      ddl-auto: validate # Set database Schema
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -29,7 +29,7 @@ spring:
     baseline-on-migrate: true
 
   zipkin:
-    base-url: http://host.docker.internal:9411
+    base-url: http://localhost:9411
 
   devtools:
     remote:
