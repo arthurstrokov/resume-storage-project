@@ -18,11 +18,11 @@ spec:
     spec:
       containers:
         - name: resume-storage-project
-          image: arthurstrokov/resume-storage-project:v1.8
+          image: arthurstrokov/resume-storage-project:v2.1
           imagePullPolicy: IfNotPresent
           env:
             - name: CONFIG_URL
-              value: 192.168.59.106:30372/cloud-configuration-server
+              value: 192.168.59.112:31943/cloud-configuration-server
             - name: spring.mvc.servlet.path
               value: /resume-storage-project
           ports:

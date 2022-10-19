@@ -98,7 +98,7 @@ docker { // For docker plugin
         ports = [8080]
         images = [
                 'arthurstrokov/resume-storage-project:latest',
-                'arthurstrokov/resume-storage-project:v1.8'
+                'arthurstrokov/resume-storage-project:v2.1'
         ]
         jvmArgs = ['-Xmx2048m']
     }
