@@ -55,8 +55,8 @@ dependencies {
     implementation group: 'org.apache.maven.plugins', name: 'maven-javadoc-plugin', version: '3.2.0'
     // TODO What is going on?
 
-    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
     implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 
@@ -98,7 +98,7 @@ docker { // For docker plugin
         ports = [8080]
         images = [
                 'arthurstrokov/resume-storage-project:latest',
-                'arthurstrokov/resume-storage-project:v1.8'
+                'arthurstrokov/resume-storage-project:v0.0.0'
         ]
         jvmArgs = ['-Xmx2048m']
     }
