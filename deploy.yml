@@ -43,7 +43,7 @@ spec:
   selector:
     app: resume-storage-project
   ports:
-    - name: port-2
+    - name: resume-storage-project-port
       port: 8080
       protocol: TCP
       targetPort: 8080

@@ -11,10 +11,9 @@ spring:
     config:
       enabled: true
       failFast: true
-      uri: http://${CONFIG_URL}/ # marathon-lb/marathon-deploy.json
+      uri: http://${CONFIG_URL:localhost:8888}/ # marathon-lb/marathon-deploy.json
       #      uri: ${CONFIG_URI:http://cloud-configuration-server:8888} # for docker-compose using
       #      uri: http://host.docker.internal:8888/ # or ip inside docker container or localhost for docker container local using
-      #      uri: http://localhost:8888/
       retry:
         max-attempts: 6
 server:
