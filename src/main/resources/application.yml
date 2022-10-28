@@ -11,10 +11,24 @@ spring:
     config:
       enabled: true
       failFast: true
+      #      discovery:
+      #        enabled: true
+      #        service-id: cloud-configuration-server
       uri: http://${CONFIG_URL:localhost:8888}/ # marathon-lb/marathon-deploy.json
       #      uri: ${CONFIG_URI:http://cloud-configuration-server:8888} # for docker-compose using
       #      uri: http://host.docker.internal:8888/ # or ip inside docker container or localhost for docker container local using
       retry:
         max-attempts: 6
+---
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA-DEFAULT-ZONE:http://localhost:8761/eureka/}
+    healthcheck:
+      enabled: true
+  instance:
+    preferIpAddress: false
+    hostname: ${EUREKA-INSTANCE-HOSTNAME:localhost}
+---
 server:
-  port: 8080
+  port: ${SERVER-PORT:8080}

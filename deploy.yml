@@ -21,10 +21,16 @@ spec:
           image: arthurstrokov/resume-storage-project:v0.0.0
           imagePullPolicy: IfNotPresent
           env:
-            - name: CONFIG_URL
-              value: 192.168.59.106:30372/cloud-configuration-server
             - name: spring.mvc.servlet.path
               value: /resume-storage-project
+            - name: SERVER-PORT
+              value: "8080"
+            - name: EUREKA-DEFAULT-ZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: EUREKA-INSTANCE-HOSTNAME
+              value: resume-storage-project
+            - name: CONFIG_URL
+              value: 192.168.59.106:30372/cloud-configuration-server
           ports:
             - containerPort: 8080
 ---
